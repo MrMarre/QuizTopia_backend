@@ -1,0 +1,114 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: marresshserverless
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: quizgps
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: QuizTopia
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: eu-north-1
+  environment:
+    JWT_SECRET: ${env:JWT_SECRET}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - arn:aws:dynamodb:${self:provider.region}:*:table/usersTable
+        - arn:aws:dynamodb:${self:provider.region}:*:table/quizTable
+
+functions:
+  getAllQuiz:
+    handler: functions/getAllQuiz/index.handler
+    events:
+      - httpApi:
+          path: /quiz
+          method: GET
+  postQuiz:
+    handler: functions/postQuiz/index.handler
+    events:
+      - httpApi:
+          path: /quiz
+          method: POST
+  postQuizQuestion:
+    handler: functions/postQuestion/index.handler
+    events:
+      - httpApi:
+          path: /quiz/question
+          method: POST
+  getQuiz:
+    handler: functions/getQuiz/index.handler
+    events:
+      - httpApi:
+          path: /quiz/question/{userId}/{quizId}
+          method: GET
+  deleteQuiz:
+    handler: functions/deleteQuiz/index.handler
+    events:
+      - httpApi:
+          path: /quiz/{quizId}
+          method: DELETE
+  signup:
+    handler: functions/signup/index.handler
+    events:
+      - httpApi:
+          path: /auth/signup
+          method: POST
+  login:
+    handler: functions/login/index.handler
+    events:
+      - httpApi:
+          path: /auth/login
+          method: POST
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.UsersTable}
+        AttributeDefinitions:
+          - AttributeName: username
+            AttributeType: S
+        KeySchema:
+          - AttributeName: username
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
+    QuizTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.QuizTable}
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: quizId
+            AttributeType: S
+          - AttributeName: name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: quizId
+            KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: AllQuizIndex
+            KeySchema:
+              - AttributeName: quizId
+                KeyType: HASH
+              - AttributeName: name
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        BillingMode: PAY_PER_REQUEST
+
+custom:
+  QuizTable: quizTable
+  UsersTable: usersTable
