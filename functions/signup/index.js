@@ -1,4 +1,4 @@
-import { hashPassword } from '../../helpers/hashPassword.js';
+import { hashPassword } from '../../helpers/userHelper/hashPassword.js';
 import { db } from '../../db.js';
 import { PutCommand } from '@aws-sdk/lib-dynamodb';
 import { getUser } from '../../utils/getUser.js';

@@ -1,9 +1,10 @@
-const sendResponse = (statusCode, data = null) => {
+const sendResponse = (statusCode, data) => {
   return {
     statusCode: statusCode,
-    body: JSON.stringify({
-      ...(data && { data }),
-    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
   };
 };
 
