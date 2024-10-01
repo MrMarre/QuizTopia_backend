@@ -1,6 +1,6 @@
 import middy from '@middy/core';
-import { passwordCheck } from '../../helpers/passwordCheck.js';
-import { signToken } from '../../helpers/signToken.js';
+import { passwordCheck } from '../../helpers/userHelper/passwordCheck.js';
+import { signToken } from '../../helpers/userHelper/signToken.js';
 import { getUser } from '../../utils/getUser.js';
 import { sendError, sendResponse } from '../../helpers/responseHelper.js';
 import { tokenValidator } from '../../utils/auth.js';
@@ -24,7 +24,7 @@ const logIn = async (event, context) => {
     const token = signToken(user);
     console.log('Generated token:', token);
 
-    return sendResponse(200, 'success', token);
+    return sendResponse(200, { success: true, token: token });
   } catch (error) {
     console.log('Error:', error);
     return sendError(500, error.message);

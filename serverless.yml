@@ -38,10 +38,10 @@ functions:
           path: /quiz
           method: POST
   postQuizQuestion:
-    handler: functions/postQuestion/index.handler
+    handler: functions/addQuestion/index.handler
     events:
       - httpApi:
-          path: /quiz/question
+          path: /quiz/{id}/question
           method: POST
   getQuiz:
     handler: functions/getQuiz/index.handler
@@ -87,24 +87,18 @@ resources:
       Properties:
         TableName: ${self:custom.QuizTable}
         AttributeDefinitions:
-          - AttributeName: userId
-            AttributeType: S
           - AttributeName: quizId
             AttributeType: S
-          - AttributeName: name
+          - AttributeName: type
             AttributeType: S
         KeySchema:
-          - AttributeName: userId
-            KeyType: HASH
           - AttributeName: quizId
-            KeyType: RANGE
+            KeyType: HASH
         GlobalSecondaryIndexes:
           - IndexName: AllQuizIndex
             KeySchema:
-              - AttributeName: quizId
+              - AttributeName: type
                 KeyType: HASH
-              - AttributeName: name
-                KeyType: RANGE
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
