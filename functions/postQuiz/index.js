@@ -3,15 +3,14 @@ import { db } from '../../db.js';
 import { v4 as uuidv4 } from 'uuid';
 import { sendError, sendResponse } from '../../helpers/responseHelper.js';
 import { tokenValidator } from '../../utils/auth.js';
+import { checkIfQuizNameExists } from '../../helpers/quizHelper/quiz.js';
 
 const postQuiz = async (event, context) => {
-  console.log('Event:', event);
   const userId = event.userId;
   const { name } = JSON.parse(event.body);
 
   const quizId = uuidv4();
   const createdAt = new Date().toISOString();
-  console.log('Generated Quiz ID:', quizId);
 
   const params = {
     TableName: 'quizTable',
@@ -26,15 +25,14 @@ const postQuiz = async (event, context) => {
   };
 
   try {
-    console.log('Checking for existing quiz...');
-    const existingQuiz = await db.get({
-      TableName: 'quizTable',
-      Key: { quizId },
-    });
+    const existingQuiz = await checkIfQuizNameExists(name);
 
-    if (existingQuiz.Item) {
-      console.log('Quiz already exists:', existingQuiz.Item);
-      return sendError(400, 'Quiz with this ID already exists');
+    if (existingQuiz) {
+      console.log('Quiz already exists with this name:', existingQuiz);
+      return sendError(
+        400,
+        `Quiz with name ${existingQuiz.name} already exists`
+      );
     }
 
     console.log('Putting item into DB:', params);
