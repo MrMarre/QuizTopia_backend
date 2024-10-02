@@ -23,6 +23,7 @@ provider:
       Resource:
         - arn:aws:dynamodb:${self:provider.region}:*:table/usersTable
         - arn:aws:dynamodb:${self:provider.region}:*:table/quizTable
+        - arn:aws:dynamodb:${self:provider.region}:*:table/quizTable/index/*
 
 functions:
   getAllQuiz:
@@ -47,7 +48,7 @@ functions:
     handler: functions/getQuiz/index.handler
     events:
       - httpApi:
-          path: /quiz/question/{userId}/{quizId}
+          path: /quiz/{quizId}
           method: GET
   deleteQuiz:
     handler: functions/deleteQuiz/index.handler
