@@ -1,8 +1,5 @@
 import middy from '@middy/core';
 import { sendError, sendResponse } from '../../../helpers/responseHelper.js';
-import { getQuizById } from '../../../helpers/quizHelper/quiz.js';
-import { getUser } from '../../../utils/getUser.js';
-import { createLeaderboard } from '../../../helpers/leaderboardHelper/leaderboard.js';
 import { tokenValidator } from '../../../utils/auth.js';
 import { fetchLeaderboard } from '../../../helpers/leaderboardHelper/leaderboard.js';
 
