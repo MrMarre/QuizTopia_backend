@@ -24,6 +24,7 @@ provider:
         - arn:aws:dynamodb:${self:provider.region}:*:table/usersTable
         - arn:aws:dynamodb:${self:provider.region}:*:table/quizTable
         - arn:aws:dynamodb:${self:provider.region}:*:table/quizTable/index/*
+        - arn:aws:dynamodb:${self:provider.region}:*:table/leaderboardTable
 
 functions:
   getAllQuiz:
@@ -68,6 +69,18 @@ functions:
       - httpApi:
           path: /auth/login
           method: POST
+  addLeaderboard:
+    handler: functions/leaderboard/addLeaderboard/index.handler
+    events:
+      - httpApi:
+          path: /leaderboard/{id}
+          method: POST
+  getLeaderboard:
+    handler: functions/leaderboard/getLeaderboard/index.handler
+    events:
+      - httpApi:
+          path: /leaderboard/{id}
+          method: GET
 
 resources:
   Resources:
@@ -103,7 +116,23 @@ resources:
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
+    LeaderBoardTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.LeaderBoardTable}
+        AttributeDefinitions:
+          - AttributeName: quizId
+            AttributeType: S
+          - AttributeName: username
+            AttributeType: S
+        KeySchema:
+          - AttributeName: quizId
+            KeyType: HASH
+          - AttributeName: username
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
 
 custom:
   QuizTable: quizTable
   UsersTable: usersTable
+  LeaderBoardTable: leaderboardTable
