@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid';
 import { db } from '../../db.js';
 import { sendError, sendResponse } from '../responseHelper.js';
 
