@@ -1,7 +1,5 @@
 import JWT from 'jsonwebtoken';
 
-// Async? Probably not
-
 export function signToken(user) {
   try {
     const token = JWT.sign(

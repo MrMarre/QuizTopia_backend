@@ -1,8 +1,6 @@
 import JWT from 'jsonwebtoken';
 import { sendError } from '../helpers/responseHelper.js';
 
-// modifieras utefter ditt db-schema
-
 export const tokenValidator = {
   before: async (request) => {
     try {

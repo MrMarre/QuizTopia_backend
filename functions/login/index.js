@@ -1,9 +1,7 @@
-import middy from '@middy/core';
 import { passwordCheck } from '../../helpers/userHelper/passwordCheck.js';
 import { signToken } from '../../helpers/userHelper/signToken.js';
 import { getUser } from '../../utils/getUser.js';
 import { sendError, sendResponse } from '../../helpers/responseHelper.js';
-import { tokenValidator } from '../../utils/auth.js';
 
 const logIn = async (event, context) => {
   console.log(event);

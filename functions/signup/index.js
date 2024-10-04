@@ -1,10 +1,8 @@
 import { hashPassword } from '../../helpers/userHelper/hashPassword.js';
 import { db } from '../../db.js';
-import { PutCommand } from '@aws-sdk/lib-dynamodb';
 import { getUser } from '../../utils/getUser.js';
 import { sendError, sendResponse } from '../../helpers/responseHelper.js';
-import middy from '@middy/core';
-// Denna behöver modifieras för att inte ta in en massa onödigt strunt
+
 const signUp = async (event, context) => {
   console.log('Received event:', event);
 
