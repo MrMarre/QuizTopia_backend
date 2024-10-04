@@ -27,6 +27,10 @@ const addLeaderboard = async (event, context) => {
       return sendError(403, 'Unauthorized to post score to this quiz');
     }
 
+    if (score < 0) {
+      return sendError(400, { error: 'Score cannot be less than 0' });
+    }
+
     const scoreLimit = quiz.questions.length;
     if (scoreLimit < score) {
       return sendError(
