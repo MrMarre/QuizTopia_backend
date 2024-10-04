@@ -17,8 +17,6 @@ const logIn = async (event, context) => {
 
     const pwVerifier = await passwordCheck(password, user);
 
-    console.log('Password verification result:', pwVerifier);
-
     if (!pwVerifier) return sendError(401, 'Wrong username or password');
 
     const token = signToken(user);

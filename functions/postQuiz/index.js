@@ -35,9 +35,7 @@ const postQuiz = async (event, context) => {
       );
     }
 
-    console.log('Putting item into DB:', params);
     await db.put(params);
-    console.log('Item successfully put into DB');
     return sendResponse(200, params);
   } catch (error) {
     console.log(error.message);

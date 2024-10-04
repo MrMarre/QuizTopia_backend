@@ -1,15 +1,21 @@
 import middy from '@middy/core';
 import { sendError, sendResponse } from '../../helpers/responseHelper.js';
 import { getQuizById } from '../../helpers/quizHelper/quiz.js';
-
-// !DU BÖRJAR HÄR IMORGON; FORMATERA DITT SVAR
+import { tokenValidator } from '../../utils/auth.js';
 
 const getQuiz = async (event, context) => {
-  console.log('Event:', event);
   const { quizId } = event.pathParameters;
-
+  const userId = event.userId;
   try {
     const quiz = await getQuizById(quizId);
+
+    if (quiz.userId !== userId) {
+      const filteredQuizzes = quiz.questions.map((question) => ({
+        question: question.question,
+        location: question.location,
+      }));
+      return sendResponse(200, filteredQuizzes);
+    }
 
     return sendResponse(200, quiz);
   } catch (error) {
@@ -23,4 +29,4 @@ export const handler = middy(getQuiz, {
   timeoutEarlyResponse: () => {
     return { statusCode: 408 };
   },
-});
+}).use(tokenValidator);

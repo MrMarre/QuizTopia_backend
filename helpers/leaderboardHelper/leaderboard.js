@@ -32,8 +32,6 @@ export const fetchLeaderboard = async (quizId) => {
 
   try {
     const result = await db.query(params);
-    console.log('QUERYRESULT:', result);
-    console.log('ITEMS:', result.Items);
 
     return result.Items || [];
   } catch (error) {

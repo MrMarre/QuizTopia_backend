@@ -74,25 +74,3 @@ export const getAllQuizzes = async () => {
     sendError(500, error.message);
   }
 };
-
-// export const getSpecificQuiz = async (quizId) => {
-//   const params = {
-//     TableName: 'quizTable',
-//     IndexName: 'AllQuizIndex',
-//     KeyConditionExpression: '#type = :type',
-//     FilterExpression: '#userId = :userid',
-//     ExpressionAttributeNames: {
-//       '#type': 'type',
-//     },
-//     ExpressionAttributeValues: {
-//       ':type': 'quiz',
-//     },
-//   };
-//   try {
-//     const result = await db.query(params);
-//     return result.Items;
-//   } catch (error) {
-//     console.log(error.message);
-//     sendError(500, error.message);
-//   }
-// };

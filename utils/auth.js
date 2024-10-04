@@ -12,10 +12,6 @@ export const tokenValidator = {
 
       const data = JWT.verify(token, process.env.JWT_SECRET);
       request.event.userId = data.username;
-      // console.log(data);
-
-      // console.log('Token data:', data);
-      // console.log('Event efter tokenValidator:', request.event);
 
       return request.response;
     } catch (error) {

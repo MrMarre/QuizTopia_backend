@@ -30,8 +30,6 @@ const signUp = async (event, context) => {
       Item: newUser,
     });
 
-    console.log('USER SUCCESSFULLY CREATED');
-
     return sendResponse(200, 'success', newUser);
   } catch (error) {
     console.log(error);
@@ -40,10 +38,3 @@ const signUp = async (event, context) => {
 };
 
 export const handler = signUp;
-// // En fungerande timeout för att motverka abortController
-// export const handler = middy(signUp, {
-//   timeoutEarlyInMillis: 0,
-//   timeoutEarlyResponse: () => {
-//     return { statusCode: 408 };
-//   },
-// });

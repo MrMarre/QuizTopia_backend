@@ -10,9 +10,6 @@ const deleteQuiz = async (event, context) => {
 
   try {
     const quizData = await getQuizById(quizId);
-    console.log('QUIZ-ID:', quizId);
-
-    console.log('QUIZ_DATA:', quizData);
 
     if (!quizData) {
       return sendError(404, `No quiz with quizId ${quizId} was found`);
