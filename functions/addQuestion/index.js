@@ -4,7 +4,6 @@ import {
 } from '../../helpers/quizHelper/quiz.js';
 import { sendError, sendResponse } from '../../helpers/responseHelper.js';
 import middy from '@middy/core';
-import { db } from '../../db.js';
 import { tokenValidator } from '../../utils/auth.js';
 
 const addQuestion = async (event, context) => {
@@ -24,7 +23,6 @@ const addQuestion = async (event, context) => {
 
   try {
     const quizData = await getQuizById(id);
-    console.log('quizData', quizData);
 
     if (quizData.userId !== userId) {
       return sendError(403, 'Unauthorized to post question to this quiz');
@@ -33,10 +31,8 @@ const addQuestion = async (event, context) => {
     const updatedQuestions = quizData.questions || [];
     updatedQuestions.push(newQuestion);
 
-    const result = await updateQuizQuestions(id, updatedQuestions);
-    console.log('Result', result);
+    await updateQuizQuestions(id, updatedQuestions);
 
-    // Du behöver inte returnera något egentligen, updatedQuestions är bara visuellt
     return sendResponse(200, updatedQuestions);
   } catch (error) {
     console.log(error.message);

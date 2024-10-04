@@ -5,12 +5,6 @@ import { getUser } from '../../../utils/getUser.js';
 import { createLeaderboard } from '../../../helpers/leaderboardHelper/leaderboard.js';
 import { tokenValidator } from '../../../utils/auth.js';
 
-// Haffa dessa jao
-// HASHKEY: quizId;
-// RANGEKEY: username;
-
-// Det finns en "leaderboard" över vilka spelare som fått flest poäng på varje quiz. Här kommer man behöva ha två endpoints, en för att registrera poäng för en användare och en endpoint för att hämta topplista över poäng och användare för ett quiz.
-
 const addLeaderboard = async (event, context) => {
   console.log('EVENT', event);
 

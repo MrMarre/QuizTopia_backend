@@ -10,6 +10,7 @@ const getAllQuiz = async (event, context) => {
     const filteredQuizzes = quizzes.map((quiz) => ({
       Username: quiz.userId,
       QuizName: quiz.name,
+      QuizId: quiz.quizId,
     }));
 
     return sendResponse(200, filteredQuizzes);
