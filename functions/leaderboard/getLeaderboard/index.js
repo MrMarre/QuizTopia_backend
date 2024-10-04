@@ -4,8 +4,6 @@ import { tokenValidator } from '../../../utils/auth.js';
 import { fetchLeaderboard } from '../../../helpers/leaderboardHelper/leaderboard.js';
 
 const getLeaderboard = async (event, context) => {
-  console.log('EVENT:', event);
-
   const { id } = event.pathParameters;
 
   try {
